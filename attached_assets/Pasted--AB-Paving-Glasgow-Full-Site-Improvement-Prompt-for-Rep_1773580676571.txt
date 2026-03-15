@@ -1,0 +1,381 @@
+# AB Paving Glasgow — Full Site Improvement Prompt for Replit Agent
+
+You are working on an existing React + Vite + TypeScript + Tailwind CSS website for **AB Paving Glasgow**, a local block paving and landscaping contractor. The site is already built and deployed. Your job is to implement all of the following improvements carefully, without breaking the existing design, routing, or component structure.
+
+The site uses:
+- React Router v6 (`BrowserRouter`, `Routes`, `Route`, `Link`)
+- Tailwind CSS with a custom navy/orange colour scheme
+- shadcn/ui components
+- Custom fonts via CSS (font-display, font-body)
+- Image assets in `src/assets/`
+- Components in `src/components/`
+- Pages in `src/pages/`
+
+---
+
+## ⚠️ GLOBAL REPLACEMENTS — Do these first across ALL files
+
+**Replace every instance of the placeholder phone number:**
+- Find: `07700 900 123` and `07700900123`
+- Replace with: `07432 421 978` and `07432421978`
+
+**Replace every instance of the placeholder email:**
+- Find: `info@abpaving.online`
+- Replace with: `akerr.pog@gmail.com`
+
+**Update blog post title and meta from 2024 to 2025:**
+- In `src/pages/blog/DrivewayCostGlasgow.tsx`, update all mentions of "2024" in the `<title>`, `<meta>`, and heading to "2025"
+
+---
+
+## 1. Fix the Quote Form — Connect to EmailJS
+
+The `QuoteForm` component at `src/components/QuoteForm.tsx` currently fakes a submission (just sets `submitted = true`). It does not send any data anywhere. Fix this so form submissions are emailed to the business.
+
+**Install EmailJS:**
+```
+npm install @emailjs/browser
+```
+
+**Update `src/components/QuoteForm.tsx`:**
+
+Replace the fake `handleSubmit` with a real EmailJS submission. Use these credentials:
+- Service ID: `service_abpaving`
+- Template ID: `template_quote`
+- Public Key: `YOUR_EMAILJS_PUBLIC_KEY`
+
+Add a loading state (disable the button and show a spinner while submitting). Show the existing success screen on success. On error, show an inline error message: "Something went wrong — please call us directly on 07432 421 978."
+
+The `templateParams` object passed to EmailJS should include:
+```js
+{
+  from_name: form.name,
+  phone: form.phone,
+  email: form.email || "Not provided",
+  service: form.service || "Not specified",
+  description: form.description || "No description provided",
+  to_email: "abpavingltd@gmail.com"
+}
+```
+
+Add a comment at the top of the file explaining that the EmailJS public key must be set as a Replit secret named `VITE_EMAILJS_PUBLIC_KEY` and accessed via `import.meta.env.VITE_EMAILJS_PUBLIC_KEY`.
+
+---
+
+## 2. Add Google Maps Embed to Contact Page
+
+In `src/pages/Contact.tsx`, add a Google Maps embed section below the existing two-column grid (after the form + contact info). The map should show Glasgow, Scotland.
+
+Add this section:
+```tsx
+<section className="py-0 bg-background">
+  <div className="container pb-20">
+    <div className="rounded-2xl overflow-hidden border border-border shadow-lg h-80">
+      <iframe
+        title="AB Paving Glasgow Service Area"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d143312.56490889225!2d-4.366!3d55.7890!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x488815562056ccb3%3A0x8b2e57b5fce45246!2sGlasgow!5e0!3m2!1sen!2suk!4v1"
+        width="100%"
+        height="100%"
+        style={{ border: 0 }}
+        allowFullScreen
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+      />
+    </div>
+    <p className="text-center font-body text-sm text-muted-foreground mt-3">
+      Serving Glasgow, Giffnock, Newton Mearns, Clarkston, Thornliebank, Barrhead, Bearsden, Milngavie and all surrounding areas.
+    </p>
+  </div>
+</section>
+```
+
+---
+
+## 3. Create Privacy Policy Page
+
+Create `src/pages/PrivacyPolicy.tsx` with a full GDPR-compliant privacy policy for a Glasgow-based sole trader / small business. Include:
+
+- Business name: AB Paving Glasgow
+- Contact email: abpavingltd@gmail.com
+- Phone: 07432 421 978
+- What data is collected (name, phone, email, project description via the quote form)
+- How it is used (to respond to enquiries and provide quotes)
+- That data is not sold or shared with third parties
+- That users can request deletion by emailing the above address
+- Cookie information (Google Analytics only, if applicable)
+- Last updated: January 2025
+
+Style it consistently with the rest of the site — navy hero section, then a max-width prose content area with section headings in `font-display font-bold text-navy`.
+
+---
+
+## 4. Create Terms & Conditions Page
+
+Create `src/pages/Terms.tsx` with basic terms of service for a paving and landscaping contractor. Include:
+
+- Quotes are valid for 30 days
+- A deposit is required before work begins
+- The business is not liable for pre-existing underground utilities or drainage issues unless surveyed
+- Disputes to be resolved by negotiation first, then Scottish law applies
+- Workmanship is guaranteed for 12 months
+
+Same styling pattern as the Privacy Policy page.
+
+---
+
+## 5. Add Routes for New Pages
+
+In `src/App.tsx`, import and add routes for the new pages:
+
+```tsx
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Terms from "./pages/Terms";
+```
+
+Add inside the `<Routes>`:
+```tsx
+<Route path="/privacy" element={<PrivacyPolicy />} />
+<Route path="/terms" element={<Terms />} />
+```
+
+---
+
+## 6. Create 3 New Location Pages
+
+The homepage currently links to Bearsden, Milngavie, and Shawlands — but they only route to `/contact`. Create proper location pages for each.
+
+**Create `src/pages/locations/Bearsden.tsx`:**
+```tsx
+import LocationPage from "./LocationPage";
+
+export default function Bearsden() {
+  return (
+    <LocationPage
+      area="Bearsden"
+      postcode="G61"
+      metaTitle="Driveways Bearsden | Block Paving & Patios | AB Paving Glasgow"
+      metaDescription="Expert block paving driveways, patios, and landscaping in Bearsden. Local Glasgow contractor. Free quotes. Fully insured. Call 07432 421 978."
+      heroHeadline="Block Paving Driveways in Bearsden"
+      intro="AB Paving delivers premium driveway installations and patio projects throughout Bearsden and the wider G61 area. We understand the style and scale of properties in Bearsden — from traditional sandstone semis to modern detached homes — and we tailor our designs accordingly."
+      body="We offer block paving driveways, porcelain and natural stone patios, full garden transformations, and landscaping services throughout Bearsden, Roman Road, Canniesburn, and surrounding streets. Our competitive quotes come with no hidden costs, and all work is fully guaranteed and insured."
+      trustNote="We've completed numerous projects in Bearsden, from classic charcoal herringbone driveways to contemporary buff sandstone patios. We know the area well and can advise on the materials and styles that complement local properties."
+    />
+  );
+}
+```
+
+**Create `src/pages/locations/Milngavie.tsx`:**
+```tsx
+import LocationPage from "./LocationPage";
+
+export default function Milngavie() {
+  return (
+    <LocationPage
+      area="Milngavie"
+      postcode="G62"
+      metaTitle="Driveways Milngavie | Block Paving & Patios | AB Paving Glasgow"
+      metaDescription="Professional block paving driveways, patios, and landscaping in Milngavie. Local Glasgow contractor. Free quotes. Fully insured. Call 07432 421 978."
+      heroHeadline="Block Paving Driveways in Milngavie"
+      intro="AB Paving is proud to serve homeowners across Milngavie and the G62 postcode. With over 10 years of experience, we bring the same high standards to every project — whether it's a single-car driveway or a full garden overhaul."
+      body="We work throughout Milngavie, Baldernock, and surrounding areas, offering block paving driveways, patios, slabbing, and landscaping. Our experienced team handles everything from initial consultation and design through to installation and clean-up, with minimal disruption to your household."
+      trustNote="Milngavie properties often feature larger plots and longer driveways — we're experienced in handling these at competitive prices. We're happy to visit and advise on the best approach for your specific property."
+    />
+  );
+}
+```
+
+**Create `src/pages/locations/Shawlands.tsx`:**
+```tsx
+import LocationPage from "./LocationPage";
+
+export default function Shawlands() {
+  return (
+    <LocationPage
+      area="Shawlands"
+      postcode="G41"
+      metaTitle="Driveways Shawlands | Block Paving & Patios | AB Paving Glasgow"
+      metaDescription="Block paving driveways, patios, and landscaping in Shawlands, Glasgow. Local contractor. Free quotes. Fully insured. Call 07432 421 978."
+      heroHeadline="Block Paving Driveways in Shawlands"
+      intro="Serving the Shawlands area and the wider G41 postcode, AB Paving provides professional block paving, patio installations, and landscaping services for Glasgow's South Side. We're a local team who understand the character of properties in this area."
+      body="From compact front garden driveways to full rear garden transformations, we cover all paving and landscaping needs in Shawlands, Pollokshields, Langside, and surrounding areas. We pride ourselves on quality workmanship, fair pricing, and always leaving the site clean and tidy."
+      trustNote="South Side Glasgow properties often have limited front garden space — we specialise in making the most of tighter driveways while maximising kerb appeal. We'll help you choose the right materials and layout for your property."
+    />
+  );
+}
+```
+
+---
+
+## 7. Add New Location Routes in App.tsx
+
+In `src/App.tsx`, import the new location pages:
+```tsx
+import Bearsden from "./pages/locations/Bearsden";
+import Milngavie from "./pages/locations/Milngavie";
+import Shawlands from "./pages/locations/Shawlands";
+```
+
+Add routes:
+```tsx
+<Route path="/driveways-bearsden" element={<Bearsden />} />
+<Route path="/driveways-milngavie" element={<Milngavie />} />
+<Route path="/driveways-shawlands" element={<Shawlands />} />
+```
+
+---
+
+## 8. Update Homepage Area Links
+
+In `src/pages/Index.tsx`, update the `areaLinks` array so Bearsden, Milngavie, and Shawlands have their proper routes instead of `/contact`:
+
+```tsx
+const areaLinks = [
+  { name: "Giffnock", to: "/driveways-giffnock", postcode: "G46" },
+  { name: "Newton Mearns", to: "/driveways-newton-mearns", postcode: "G77" },
+  { name: "Clarkston", to: "/driveways-clarkston", postcode: "G76" },
+  { name: "Thornliebank", to: "/driveways-thornliebank", postcode: "G46" },
+  { name: "Barrhead", to: "/driveways-barrhead", postcode: "G78" },
+  { name: "Bearsden", to: "/driveways-bearsden", postcode: "G61" },
+  { name: "Milngavie", to: "/driveways-milngavie", postcode: "G62" },
+  { name: "Shawlands", to: "/driveways-shawlands", postcode: "G41" },
+];
+```
+
+---
+
+## 9. Update Footer Social Media Links
+
+In `src/components/SiteFooter.tsx`, update the social links to use real URLs:
+
+- Facebook: `https://www.facebook.com/abpavinggalsgow` (update if you have the correct URL)
+- Instagram: `https://www.instagram.com/abpavinggalsgow` (update if you have the correct URL)
+
+Also add `target="_blank"` and `rel="noopener noreferrer"` to both social link anchors.
+
+---
+
+## 10. Add Areas Dropdown to Header Nav
+
+In `src/components/SiteHeader.tsx`, update the `Areas` dropdown children to include the three new location pages:
+
+```tsx
+{
+  label: "Areas",
+  to: "#",
+  children: [
+    { label: "Driveways Giffnock", to: "/driveways-giffnock" },
+    { label: "Driveways Newton Mearns", to: "/driveways-newton-mearns" },
+    { label: "Driveways Clarkston", to: "/driveways-clarkston" },
+    { label: "Driveways Thornliebank", to: "/driveways-thornliebank" },
+    { label: "Driveways Barrhead", to: "/driveways-barrhead" },
+    { label: "Driveways Bearsden", to: "/driveways-bearsden" },
+    { label: "Driveways Milngavie", to: "/driveways-milngavie" },
+    { label: "Driveways Shawlands", to: "/driveways-shawlands" },
+  ],
+},
+```
+
+---
+
+## 11. Add New Blog Post: 5 Signs Your Driveway Needs Replacing
+
+Create `src/pages/blog/DrivewaySigns.tsx`. Model it on the existing blog page structure in `src/pages/blog/DrivewayCostGlasgow.tsx`. Include:
+
+- Meta title: "5 Signs Your Driveway Needs Replacing | AB Paving Glasgow"
+- Meta description: "Is your driveway looking tired, cracked, or waterlogged? Here are 5 warning signs it's time to replace it — and what your options are in Glasgow."
+- Hero section using `serviceDriveway` image
+- Article with headings for each of the 5 signs:
+  1. Cracks and crumbling edges
+  2. Weeds growing through the surface
+  3. Pooling water or poor drainage
+  4. Sunken or uneven surface
+  5. It's over 20 years old
+- Concluding CTA section linking to `/contact`
+- Sidebar with `QuoteForm compact` (same sidebar pattern as DrivewayCostGlasgow)
+
+Add the route in `src/App.tsx`:
+```tsx
+import DrivewaySigns from "./pages/blog/DrivewaySigns";
+// ...
+<Route path="/5-signs-driveway-needs-replacing" element={<DrivewaySigns />} />
+```
+
+Add it to the `blogPosts` array in `src/pages/Index.tsx`:
+```tsx
+{ 
+  title: "5 Signs Your Driveway Needs Replacing", 
+  to: "/5-signs-driveway-needs-replacing", 
+  desc: "Is your driveway cracking, sinking, or waterlogged? Here's when it's time to replace it." 
+},
+```
+
+Update the blog grid on the homepage from `grid-cols-3` to handle 4 items — change to `md:grid-cols-2 lg:grid-cols-4` or keep it at 3 and only show the first 3 with a "View all guides" link.
+
+---
+
+## 12. Update SiteFooter — Add New Blog Post Link
+
+In `src/components/SiteFooter.tsx`, add the new blog post to the services/links column:
+```tsx
+{ label: "5 Signs to Replace Your Driveway", to: "/5-signs-driveway-needs-replacing" },
+```
+
+---
+
+## 13. Fix the Top Bar Service Area Text
+
+In `src/components/SiteHeader.tsx`, update the top bar text to include the new areas:
+
+Find:
+```
+Serving Glasgow & Surrounding Areas — Giffnock · Newton Mearns · Clarkston · Barrhead
+```
+
+Replace with:
+```
+Serving Glasgow & Surrounding Areas — Giffnock · Newton Mearns · Clarkston · Bearsden · Barrhead
+```
+
+---
+
+## 14. Add a "Resin Driveways" Service Page
+
+Create `src/pages/ResinDriveways.tsx` as a new service page. Model it on the structure of `src/pages/BlockPavingDriveways.tsx`. Key content:
+
+- `<title>`: "Resin Driveways Glasgow | Resin Bound Driveways | AB Paving"
+- Meta description: "Resin bound driveways in Glasgow — smooth, permeable, and low maintenance. Free quotes from AB Paving. Fully insured. Call 07432 421 978."
+- Include a comparison section: Resin vs Block Paving (linking to the existing `/block-paving-vs-resin-driveways` blog post)
+- Standard layout: hero, trust bar, intro text, benefits, process steps, FAQ, quote form
+
+Add route in `src/App.tsx`:
+```tsx
+import ResinDriveways from "./pages/ResinDriveways";
+// ...
+<Route path="/resin-driveways-glasgow" element={<ResinDriveways />} />
+```
+
+Add to the Services dropdown in `src/components/SiteHeader.tsx`:
+```tsx
+{ label: "Resin Driveways", to: "/resin-driveways-glasgow" },
+```
+
+Add to the footer services list:
+```tsx
+{ label: "Resin Driveways Glasgow", to: "/resin-driveways-glasgow" },
+```
+
+---
+
+## Final Checks
+
+After making all changes:
+
+1. Confirm there are no TypeScript errors (`npm run build` should succeed)
+2. Confirm all new routes render without crashing
+3. Confirm the phone number `07432 421 978` appears everywhere the old placeholder was
+4. Confirm the email `abpavingltd@gmail.com` appears everywhere the old placeholder was
+5. Confirm the footer Privacy Policy and Terms links now route to real pages
+6. Confirm the homepage area grid links all go to proper location pages
+7. Confirm the QuoteForm shows a loading state when submitting and handles errors gracefully
+
+Do not change the visual design, colour scheme, fonts, or layout of any existing pages. Only add, fix, and update as described above.

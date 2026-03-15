@@ -1,0 +1,190 @@
+You are an expert React developer, local SEO strategist, and UX designer.
+
+Your task is to expand an existing React + Vite + Tailwind website for a paving contractor called **AB Paving** located in **G46 Glasgow, Scotland**.
+
+The website is already deployed on Vercel but needs to be expanded with SEO-optimized pages, structured data, and internal linking so it can rank on Google for local search terms.
+
+The goal is to turn the site into a **local lead generation website for driveways, patios, and landscaping in Glasgow and surrounding areas.**
+
+---
+
+BUSINESS DETAILS
+
+Company Name: AB Paving
+Industry: Block paving, driveways, patios, landscaping
+Location: G46 Glasgow, Scotland
+Service area: Glasgow and nearby towns
+
+Primary services:
+
+• Block paving driveways
+• Resin driveways
+• Patio installation
+• Garden landscaping
+• Garden transformations
+
+---
+
+PRIMARY SEO KEYWORDS
+
+Driveways Glasgow
+Block Paving Glasgow
+Patios Glasgow
+Landscaping Glasgow
+Garden Transformations Glasgow
+
+---
+
+SECONDARY LOCAL KEYWORDS
+
+Driveways Giffnock
+Driveways Newton Mearns
+Driveways Clarkston
+Driveways Barrhead
+Patios East Renfrewshire
+
+---
+
+SITE STRUCTURE TO GENERATE
+
+Create the following main pages:
+
+/block-paving-driveways-glasgow
+/patios-glasgow
+/landscaping-glasgow
+/garden-transformations-glasgow
+
+Each page must include:
+
+• SEO title
+• meta description
+• H1 headline
+• 800–1200 words of optimized content
+• internal links
+• quote call-to-action section
+• image placeholders for project photos
+
+---
+
+LOCATION PAGES
+
+Create location landing pages for nearby suburbs:
+
+/driveways-giffnock
+/driveways-newton-mearns
+/driveways-clarkston
+/driveways-thornliebank
+/driveways-barrhead
+
+Each page should contain:
+
+• localized headline
+• description of services in that area
+• local trust signals
+• internal links to service pages
+• quote request call to action
+
+---
+
+PROJECT PAGES
+
+Create a project showcase system:
+
+/projects/block-paving-driveway-newton-mearns
+/projects/patio-installation-giffnock
+
+Each project page should include:
+
+• before and after images
+• project description
+• materials used
+• installation steps
+• location reference
+
+---
+
+BLOG / GUIDE PAGES
+
+Create helpful SEO pages such as:
+
+/driveway-cost-glasgow
+/block-paving-vs-resin-driveways
+/how-long-do-block-paving-driveways-last
+
+Each article should target long-tail keywords and include 800–1200 words.
+
+---
+
+HOMEPAGE IMPROVEMENTS
+
+Update homepage to include:
+
+Hero section
+“Driveways & Block Paving Specialists in Glasgow”
+
+Trust badges:
+
+• Local G46 company
+• Fully insured
+• Free quotes
+• Experienced installers
+
+Sections:
+
+Services grid
+Recent projects gallery
+Customer testimonials
+Areas we cover
+Quote request form
+
+---
+
+INTERNAL LINKING
+
+All location pages should link to service pages.
+
+Example:
+
+“Looking for block paving driveways in Newton Mearns? Visit our block paving service page.”
+
+---
+
+STRUCTURED DATA
+
+Add schema markup:
+
+LocalBusiness schema
+Service schema
+Review schema
+
+Include location coordinates for Glasgow.
+
+---
+
+CONVERSION ELEMENTS
+
+Every page must contain:
+
+• call button
+• quote form
+• trust badges
+• customer testimonials
+
+Primary call-to-action text:
+
+“Get a Free Driveway Quote in Glasgow”
+
+---
+
+OUTPUT REQUIREMENTS
+
+Provide:
+
+• React components for each page
+• SEO meta tags
+• page routing setup
+• internal linking structure
+• Tailwind styled sections
+• schema markup
+
+The result should be a scalable SEO structure capable of ranking for local paving searches across Glasgow and surrounding towns.
